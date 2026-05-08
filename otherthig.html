@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="EN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>classqork</title>
+</head>
+
+<style>
+    .container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    
+    .item {
+        background-color: #00AABB;
+        color: white;
+        padding: 20px;
+        margin: 10px;
+        flex: 1;
+        height: 300px;
+        text-align: center;
+        border: 2px solid black;
+    }
+    
+    img {
+        width: 100%;
+        height: auto;
+        size: 100px 100px;
+    }
+    
+    figcaption {
+        font-size: 20px;
+        font-weight: bold;
+    }
+    
+    p {
+        background-color: deepskyblue;
+        color: white;
+        padding: 10px;
+        border: #00AABB solid 2px;
+    }
+    
+    .menu {
+        background-color: #09bb00a1;
+        display: flex;
+        flex-direction: row;
+        padding: 10px;
+        justify-content: center;
+    }
+    
+    .menu a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 10px;
+        text-decoration: none;
+    }
+    
+    .menu a:hover {
+        background-color: #ddd;
+        color: black;
+    }
+    
+    @media (max-width: 600px) {
+        p {
+            background-color: lightcoral;
+            font-size: 12px;
+        }
+        .menu {
+            flex-direction: column;
+        }
+    }
+    
+    hr {
+        border: 2px solid black;
+    }
+</style>
+
+<body>
+
+    <p class="@media">Kind of cooked lowk</p>
+
+    <nav class="menu">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="#">Products</a>
+
+    </nav>
+
+    <hr>
+
+    <div class="container">
+        <div class="item">
+            <figure>
+                <img src="https://i.postimg.cc/mDjN7fgJ/image-2026-04-30-132713734.png">
+                <br><br>
+                <figcaption>Transmasc Flag</figcaption>
+                <figcaption>19.99$</figcaption>
+            </figure>
+        </div>
+
+        <div class="item">
+            <figure>
+                <img src="https://i.postimg.cc/XJgSFJFj/image-2026-04-30-133309950.png">
+                <br><br>
+                <figcaption>Lesbian Flag</figcaption>
+                <figcaption>19.99$</figcaption>
+            </figure>
+
+
+        </div>
+        <div class="item">
+            <figure>
+                <img src="https://i.postimg.cc/ZqMjQhSN/image-2026-04-30-133721259.png">
+                <br><br>
+                <figcaption>OmniRomantic Flag</figcaption>
+                <figcaption>19.99$</figcaption>
+            </figure>
+        </div>
+        <br>
+
+
+</body>
+
+</html>
