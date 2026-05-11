@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funny Page</title>
+    <link rel="stylesheet" href="indexxx.css">
+
+</head>
+
+<body>
+    <script src="index-script.js"></script>
+    <h1>Student Registration System</h1>
+    <form id="student-form" onsubmit="handleStudentForm(event)">
+        <label for="student-id">Student ID:</label>
+        <input type="text" id="student-id" name="studentId" required><br><br>
+
+        <label for="student-name">Name:</label>
+        <input type="text" id="student-name" name="studentName" required><br><br>
+
+        <label for="student-age">Age:</label>
+        <input type="number" id="student-age" name="studentAge" min="1" required><br><br>
+
+        <label for="student-major">Major:</label>
+        <input type="text" id="student-major" name="studentMajor" required><br><br>
+
+        <h3>Scores</h3>
+        <label for="score-js">JavaScript:</label>
+        <input type="number" id="score-js" name="scoreJs" min="0" max="100" required><br><br>
+
+        <label for="score-db">C++:</label>
+        <input type="number" id="score-cpp" name="scoreCPP" min="0" max="100" required><br><br>
+
+        <label for="score-net">Python:</label>
+        <input type="number" id="score-py" name="scorePy" min="0" max="100" required><br><br>
+
+        <button type="submit">Submit</button>
+        <button type="reset">Clear</button>
+    </form>
+
+    <div id="student-output" style="white-space: pre-line; margin-top: 20px; font-family: monospace;"></div>
+
+    <div class="button-container">
+        <button onclick="alert('You are a LOSER!')">Click Me!</button>
+        <button onclick="alert('You are GAY!')">Click Me!</button>
+        <button onclick="changeBackgroundColor()">Change Background Color</button>
+
+        <script>
+            function handleStudentForm(event) {
+                event.preventDefault();
+
+                const student = {
+                    id: document.getElementById('student-id').value.trim(),
+                    name: document.getElementById('student-name').value.trim(),
+                    age: Number(document.getElementById('student-age').value),
+                    major: document.getElementById('student-major').value.trim(),
+                    scores: {
+                        JavaScript: Number(document.getElementById('score-js').value),
+                        CPP: Number(document.getElementById('score-cpp').value),
+                        Python: Number(document.getElementById('score-py').value)
+                    },
+                    average() {
+                        const values = Object.values(this.scores);
+                        const total = values.reduce((sum, score) => sum + score, 0);
+                        return total / values.length;
+                    },
+                    result() {
+                        return this.average() >= 50 ? 'Pass' : 'Fail';
+                    }
+                };
+
+                const output = `Student ID: ${student.id}\nName: ${student.name}\nAge: ${student.age}\nMajor: ${student.major}\nScores:\nJavaScript: ${student.scores.JavaScript}\nDatabase: ${student.scores.Database}\nNetworking: ${student.scores.Networking}\nAverage: ${student.average().toFixed(2)}\nResult: ${student.result()}`;
+                document.getElementById('student-output').innerText = output;
+            }
+
+            function calculateResult() {
+                calculate();
+            }
+        </script>
+
+
+        <!-- unrelated-->
+
+    </div>
+    <br><br>
+    <div class="calculator">
+        <input class="input" type="text" id="display" readonly>
+        <br><br>
+        <br>
+        <button class="calculator-button" onclick="appendToDisplay('1')">1</button>
+        <button class="calculator-button" onclick="appendToDisplay('2')">2</button>
+        <button class="calculator-button" onclick="appendToDisplay('3')">3</button>
+        <button class="calculator-button" onclick="appendToDisplay('+')">+</button>
+        <br>
+        <button class="calculator-button" onclick="appendToDisplay('4')">4</button>
+        <button class="calculator-button" onclick="appendToDisplay('5')">5</button>
+        <button class="calculator-button" onclick="appendToDisplay('6')">6</button>
+        <button class="calculator-button" onclick="appendToDisplay('-')">-</button>
+        <br>
+        <button class="calculator-button" onclick="appendToDisplay('7')">7</button>
+        <button class="calculator-button" onclick="appendToDisplay('8')">8</button>
+        <button class="calculator-button" onclick="appendToDisplay('9')">9</button>
+        <button class="calculator-button" onclick="appendToDisplay('*')">*</button>
+        <br>
+        <button class="calculator-button" onclick="clearDisplay()">C</button>
+        <button class="calculator-button" onclick="appendToDisplay('0')">0</button>
+        <button class="calculator-button" onclick="appendToDisplay('.')">.</button>
+        <button class="calculator-button" onclick="appendToDisplay('/')">/</button>
+        <br>
+        <button class="calculator-button" onclick="calculateResult()">=</button>
+    </div>
+
+
+</body>
+
+</html>
