@@ -9,25 +9,43 @@
 
 <body>
     <script>
-        let variable_name = 100;
-        let array_name = [10, 20, 30];
-        document.write("Array index of 2" + array_name[1]);
-        let student = {
-            name: prompt("Enter name"),
-            age: parseInt(prompt("Enter age")),
+        const student_obj = {
+            student_id: prompt("Enter student ID"),
+            name: prompt("Enter student name"),
+            age: parseFloat(prompt("Enter age")),
+            major: prompt("Enter Major"),
             score: [
-                parseFloat(prompt("Enter JS score")),
+                parseFloat(prompt("Enter JS score:")),
                 parseFloat(prompt("Enter C++ score")),
+                parseFloat(prompt("Enter HTML score"))
             ],
-            show: function() {
-                document.write("Name: " + this.name + "<br>");
+            averge: function() {
+                let total = (this.score[0] + this.score[1] + this.score[2]) / 3;
+                return total;
             }
-        };
-        student.age = 20;
-        student.sow();
+        }
+
+        function saveData() {
+            const userProfile = {
+                name: document.getElementById(prompt("Enter student name")).value,
+                age: document.getElementById(parseFloat(prompt("Enter age"))).value,
+                major: document.getElementById(prompt("Enter Major")),
+                score: document.getElementsByClassName[
+                    parseFloat(prompt("Enter JS core:")),
+                    parseFloat(prompt("Enter C++ score")),
+                    parseFloat(prompt("Enter HTML score"))
+                ]
+            };
+
+            console.log(userProfile);
+        }
     </script>
 
-    <button onclick="student.show()">CK</button>
+    <input type="text" id="userName" placeholder="Enter Name">
+    <input type="text" id="userAge" placeholder="Enter Age">
+    <button onclick="saveData()">Save</button>
+    <button onclick="document.getElementById('userProfile').innerText = '';">Clear</button>
+    <pre id="userProfile"></pre>
 
 </body>
 
