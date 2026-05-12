@@ -8,44 +8,48 @@
 </head>
 
 <body>
-    <script>
-        const student_obj = {
-            student_id: prompt("Enter student ID"),
-            name: prompt("Enter student name"),
-            age: parseFloat(prompt("Enter age")),
-            major: prompt("Enter Major"),
-            score: [
-                parseFloat(prompt("Enter JS score:")),
-                parseFloat(prompt("Enter C++ score")),
-                parseFloat(prompt("Enter HTML score"))
-            ],
-            averge: function() {
-                let total = (this.score[0] + this.score[1] + this.score[2]) / 3;
-                return total;
-            }
-        }
+    <div class="container mt-5">
+        <div class="row justify-content-center align-items-center vh-100">
+            <div class="col-md-5">
 
-        function saveData() {
-            const userProfile = {
-                name: document.getElementById(prompt("Enter student name")).value,
-                age: document.getElementById(parseFloat(prompt("Enter age"))).value,
-                major: document.getElementById(prompt("Enter Major")),
-                score: document.getElementsByClassName[
-                    parseFloat(prompt("Enter JS core:")),
-                    parseFloat(prompt("Enter C++ score")),
-                    parseFloat(prompt("Enter HTML score"))
-                ]
-            };
+                <div class="card shadow p-4 rounded-4">
 
-            console.log(userProfile);
-        }
-    </script>
+                    <h2 class="text-center mb-4">Login</h2>
 
-    <input type="text" id="userName" placeholder="Enter Name">
-    <input type="text" id="userAge" placeholder="Enter Age">
-    <button onclick="saveData()">Save</button>
-    <button onclick="document.getElementById('userProfile').innerText = '';">Clear</button>
-    <pre id="userProfile"></pre>
+                    <form>
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" placeholder="Enter email">
+                        </div>
+
+                        <!-- Password -->
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control" placeholder="Enter password">
+                        </div>
+
+                        <!-- Remember me -->
+                        <div class="form-check mb-3">
+                            <input type="checkbox" class="form-check-input" id="remember">
+                            <label class="form-check-label" for="remember">
+                                Remember me
+                            </label>
+                        </div>
+
+                        <!-- Button -->
+                        <button type="submit" class="btn btn-primary w-100" onclick="alert('You successfully login.')">
+                            Login
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
 
 </body>
 

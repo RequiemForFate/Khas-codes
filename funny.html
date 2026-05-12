@@ -70,7 +70,7 @@
                     }
                 };
 
-                const output = `Student ID: ${student.id}\nName: ${student.name}\nAge: ${student.age}\nMajor: ${student.major}\nScores:\nJavaScript: ${student.scores.JavaScript}\nDatabase: ${student.scores.Database}\nNetworking: ${student.scores.Networking}\nAverage: ${student.average().toFixed(2)}\nResult: ${student.result()}`;
+                const output = `Student ID: ${student.id}\nName: ${student.name}\nAge: ${student.age}\nMajor: ${student.major}\nScores:\nJavaScript: ${student.scores.JavaScript}\nCPP: ${student.scores.cpp}\nNPython: ${student.scores.Python}\nAverage: ${student.average().toFixed(2)}\nResult: ${student.result()}`;
                 document.getElementById('student-output').innerText = output;
             }
 
