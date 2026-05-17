@@ -154,7 +154,7 @@
         <div class="grid">
             <section class="task-card">
                 <h2>Task 1: Number to String</h2>
-                <p class="description">Convert each digit to words and join them.</p>
+                <p class="description">Convert each digit into words.</p>
                 <div class="field"><label>Enter number</label><input id="n1" placeholder="12345"></div>
                 <div class="controls"><button onclick="convertNumberToString()">Convert</button>
                     <div class="hint">onetwothreefourfive</div>
@@ -216,7 +216,7 @@
                 }
                 const c = i.replace(/\s+/g, '');
                 if (!/^[-+]?\d+$/.test(c)) {
-                    o.textContent = 'Only whole numbers are allowed.';
+                    o.textContent = 'Only numbers are allowed.';
                     return
                 }
                 const s = c.startsWith('-') ? 'minus' : c.startsWith('+') ? 'plus' : '';
@@ -233,7 +233,7 @@
                 }
                 const c = i.replace(/\s+/g, '');
                 if (!/^[-+]?\d+$/.test(c)) {
-                    o.textContent = 'Only whole numbers allowed.';
+                    o.textContent = 'Only numbers allowed.';
                     return
                 }
                 const n = c.replace(/^[-+]/, ''),
