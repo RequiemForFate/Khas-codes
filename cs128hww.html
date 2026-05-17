@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CS128 JavaScript Homework — Responsive</title>
+    <style>
+         :root {
+            --bg: #f5f4fb;
+            --card: #fff;
+            --accent: #ffb74d;
+            --accent-dark: #f49f26;
+            --text: #2c2d38;
+            --muted: #6d6e7d;
+            --border: #e6e6f0;
+            --shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at top, rgba(255, 183, 77, 0.15), transparent 35%), linear-gradient(180deg, #fefefe 0%, #f5f4fb 100%);
+            color: var(--text);
+        }
+        
+        .page {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 36px 20px 80px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: clamp(1.6rem, 2.4vw, 2.6rem);
+        }
+        
+        header p {
+            margin: 10px auto 0;
+            max-width: 720px;
+            color: var(--muted);
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        @media (min-width: 640px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 1000px) {
+            .grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (min-width: 1400px) {
+            .grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        .task-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+        
+        .task-card h2 {
+            margin: 0 0 8px;
+            font-size: 1.05rem;
+        }
+        
+        .task-card .description {
+            margin: 0 0 14px;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+        
+        .field {
+            margin-bottom: 12px;
+        }
+        
+        .field label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #494c5d;
+        }
+        
+        .field input {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid #e0e0ea;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .controls button {
+            background: var(--accent);
+            border: none;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        
+        .controls button:hover {
+            background: var(--accent-dark);
+        }
+        
+        .controls .hint {
+            background: #eef1ff;
+            padding: 8px 10px;
+            border-radius: 10px;
+            color: #5f63a6;
+        }
+        
+        .output {
+            min-height: 42px;
+            padding: 12px;
+            border-radius: 10px;
+            background: #f7f7ff;
+            border: 1px solid #e7e7f6;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <header>
+            <h1>JavaScript Task Suite — Responsive</h1>
+            <p>Responsive layout: 1 column on mobile, up to 4 columns on wide screens.</p>
+        </header>
+
+        <div class="grid">
+            <section class="task-card">
+                <h2>Task 1: Number to String</h2>
+                <p class="description">Convert each digit to words and join them.</p>
+                <div class="field"><label>Enter number</label><input id="n1" placeholder="12345"></div>
+                <div class="controls"><button onclick="convertNumberToString()">Convert</button>
+                    <div class="hint">onetwothreefourfive</div>
+                </div>
+                <div class="output" id="r1">Result</div>
+            </section>
+
+            <section class="task-card">
+                <h2>Task 2: Palindrome</h2>
+                <p class="description">Check whether number is palindrome.</p>
+                <div class="field"><label>Enter number</label><input id="n2" placeholder="54345"></div>
+                <div class="controls"><button onclick="checkPalindrome()">Check</button>
+                    <div class="hint">54345 → palindrome</div>
+                </div>
+                <div class="output" id="r2">Result</div>
+            </section>
+
+            <section class="task-card">
+                <h2>Task 3: Sort Array</h2>
+                <p class="description">Sort without built-in <code>sort()</code>.</p>
+                <div class="field"><label>Numbers, comma separated</label><input id="n3" placeholder="3,8,7,6,5,-4,3,2,1"></div>
+                <div class="controls"><button onclick="sortArrayManually()">Sort</button>
+                    <div class="hint">-4,-3,1,2,3,5,6,7,8</div>
+                </div>
+                <div class="output" id="r3">Result</div>
+            </section>
+
+            <section class="task-card">
+                <h2>Task 4: Sum Function</h2>
+                <p class="description">Sum any number of numeric arguments.</p>
+                <div class="field"><label>Numbers, comma separated</label><input id="n4" placeholder="1,2,3,4"></div>
+                <div class="controls"><button onclick="sumNumbers()">Calculate</button>
+                    <div class="hint">sum(1,2,3,4)=10</div>
+                </div>
+                <div class="output" id="r4">Result</div>
+            </section>
+        </div>
+
+        <script>
+            const digitNames = {
+                '0': 'zero',
+                '1': 'one',
+                '2': 'two',
+                '3': 'three',
+                '4': 'four',
+                '5': 'five',
+                '6': 'six',
+                '7': 'seven',
+                '8': 'eight',
+                '9': 'nine'
+            };
+
+            function convertNumberToString() {
+                const i = document.getElementById('n1').value.trim(),
+                    o = document.getElementById('r1');
+                if (!i) {
+                    o.textContent = 'Please enter a number.';
+                    return
+                }
+                const c = i.replace(/\s+/g, '');
+                if (!/^[-+]?\d+$/.test(c)) {
+                    o.textContent = 'Only whole numbers are allowed.';
+                    return
+                }
+                const s = c.startsWith('-') ? 'minus' : c.startsWith('+') ? 'plus' : '';
+                const d = c.replace(/^[-+]/, '').split('');
+                o.textContent = (s ? s : '') + d.map(x => digitNames[x] || '?').join('');
+            }
+
+            function checkPalindrome() {
+                const i = document.getElementById('n2').value.trim(),
+                    o = document.getElementById('r2');
+                if (!i) {
+                    o.textContent = 'Please enter a number.';
+                    return
+                }
+                const c = i.replace(/\s+/g, '');
+                if (!/^[-+]?\d+$/.test(c)) {
+                    o.textContent = 'Only whole numbers allowed.';
+                    return
+                }
+                const n = c.replace(/^[-+]/, ''),
+                    r = n.split('').reverse().join('');
+                o.innerHTML = (n === r) ? `<strong>${c}</strong> is a palindrome.` : `<strong>${c}</strong> is not a palindrome.`
+            }
+
+            function sortArrayManually() {
+                const i = document.getElementById('n3').value.trim(),
+                    o = document.getElementById('r3');
+                if (!i) {
+                    o.textContent = 'Enter numbers.';
+                    return
+                }
+                const vals = i.split(',').map(s => s.trim()).filter(Boolean);
+                const nums = vals.map(Number);
+                if (nums.some(Number.isNaN)) {
+                    o.textContent = 'Invalid numbers.';
+                    return
+                }
+                const arr = nums.slice();
+                for (let a = 0; a < arr.length - 1; a++) {
+                    for (let b = 0; b < arr.length - 1 - a; b++) {
+                        if (arr[b] > arr[b + 1]) {
+                            [arr[b], arr[b + 1]] = [arr[b + 1], arr[b]]
+                        }
+                    }
+                }
+                o.textContent = arr.join(', ')
+            }
+
+            function sumNumbers() {
+                const i = document.getElementById('n4').value.trim(),
+                    o = document.getElementById('r4');
+                if (!i) {
+                    o.textContent = 'Enter numbers.';
+                    return
+                }
+                const vals = i.split(',').map(s => s.trim()).filter(Boolean);
+                const nums = vals.map(Number);
+                if (nums.some(Number.isNaN)) {
+                    o.textContent = 'Invalid numbers.';
+                    return
+                }
+                let t = 0;
+                for (let v of nums) t += v;
+                o.innerHTML = `sum(${nums.join(', ')}) = <strong>${t}</strong>`
+            }
+        </script>
+</body>
+
+</html>
