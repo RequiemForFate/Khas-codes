@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .form-container {
+            width: 500px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        label {
+            display: inline-block;
+            width: 150px;
+            font-weight: bold;
+            color: #333;
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <form class="form-container">
+        <center>Student System Management</center><br><br>
+        <label for="studentID">Student ID:</label>
+        <input type="text" id="studentID" placeholder="Input ID.."><br>
+        <label for="name">Name:</label>
+        <input type="text" id="name" placeholder="Input name.."><br>
+        <label for="gender">Gender:</label>
+        <select id="gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select><br>
+        <label for=dob>Date of Birth:</label>
+        <input type="date" id="dob"><br>
+        <label for="answer">Answer Questions?</label>
+        <input type="radio" id="YES" name="answer" value="Yes" onclick="toggleQuestions()">Yes
+        <input type="radio" id="NO" name="answer" value="No" onclick="toggleQuestions()">No
+        <div id="questions" style="display: none; margin-top: 10px;">
+            <textarea id="answers" cols="50" rows="5" placeholder="Type your answer here..."></textarea>
+        </div><br>
+        <button type="button" onclick="submitForm()">Submit</button>
+        <button type="button" onclick="resetForm()">Reset</button>
+        <div id="display" style="margin-top: 20px; line-height: 1.8; font-weight: bold; white-space: pre-wrap;"></div>
+    </form>
+
+
+    <script>
+        function toggleQuestions() {
+            const answerYes = document.getElementById('YES').checked;
+            const questionBlock = document.getElementById('questions');
+            questionBlock.style.display = answerYes ? 'block' : 'none';
+        }
+
+        function submitForm() {
+            const id = document.getElementById('studentID').value.trim();
+            const name = document.getElementById('name').value.trim();
+            const gender = document.getElementById('gender').value;
+            const dob = document.getElementById('dob').value;
+            const answerChoice = document.querySelector('input[name="answer"]:checked');
+            const answerText = document.getElementById('answers').value.trim();
+            const display = document.getElementById('display');
+
+            if (!id || !name || !dob || !answerChoice) {
+                display.textContent = 'Please fill in all fields and choose Yes or No.';
+                display.style.color = 'red';
+                return;
+            }
+
+            const answerLine = answerChoice.value === 'Yes' ?
+                `Answer: ${answerText || 'No answer provided.'}` :
+                'Answer: No';
+
+            display.style.color = '#111';
+            display.innerHTML =
+                `===== Personal Information =====<br>` +
+                `Student ID: ${id}<br>` +
+                `Name: ${name}<br>` +
+                `Gender: ${gender}<br>` +
+                `Date of Birth: ${dob}<br>` +
+                `${answerLine}`;
+        }
+
+        function resetForm() {
+            document.querySelector('form').reset();
+            document.getElementById('questions').style.display = 'none';
+            document.getElementById('display').textContent = '';
+        }
+    </script>
+</body>
+
+</html>
