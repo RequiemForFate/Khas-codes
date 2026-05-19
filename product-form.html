@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Information</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</head>
+
+
+<body>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-7">
+                <!-- Form Card -->
+                <div class="card shadow-sm border-0 rounded-4">
+                    <div class="card-body p-4">
+                        <h3 class="card-title mb-4 text-center">Product Form</h3>
+
+                        <form id="productForm">
+                            <div class="mb-3">
+                                <!--id-->
+                                <label class="form-label fw-bold">Product ID</label>
+                                <input type="text" id="productId" class="form-control" placeholder="e.g... 101">
+                                <div class="text-danger small" id="errId"></div>
+                            </div>
+
+                            <div class="mb-3">
+                                <!--name-->
+                                <label class="form-label fw-bold">Product Name</label>
+                                <input type="text" id="name" class="form-control" placeholder="Enter product name">
+                                <div class="text-danger small" id="errName"></div>
+                            </div>
+
+                            <div class="mb-3">
+                                <!--type-->
+                                <label class="form-label fw-bold">Type</label>
+                                <select id="productType" class="form-select">
+                                    <option value="" selected>Select Type</option>
+                                    <option value="Fruit">Fruit</option>
+                                    <option value="Vegetable">Vegetable</option>
+                                    <option value="Dairy">Dairy</option>
+                                    <option value="Beverage">Beverage</option>
+                                    <option value="Snack">Snack</option>
+                                </select>
+                                <div class="text-danger small" id="errType"></div>
+                            </div>
+
+                            <div class="mb-3">
+                                <!--expiry-->
+                                <label class="form-label fw-bold">Expiry</label>
+                                <input type="date" id="expire" class="form-control">
+                                <div class="text-danger small" id="errExpire"></div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Description</label>
+                                <textarea id="desc" class="form-control" rows="2" placeholder="Enter Description"></textarea>
+                                <div class="text-danger small" id="errDesc"></div>
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <button type="button" id="saveBtn" class="btn btn-primary flex-fill py-2">Save</button>
+                                <button type="button" id="resetBtn" class="btn btn-secondary flex-fill py-2">Reset</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!--display-->
+                <div class="card mt-4 border-0 rounded-4 bg-white shadow-sm">
+                    <div class="card-body p-4">
+                        <p id="display" class="mb-0" style="font-family: monospace; white-space: pre-line;"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const form = document.getElementById('productForm');
+        const idInput = document.getElementById('productId');
+        const nameInput = document.getElementById('name');
+        const typeSelect = document.getElementById('productType');
+        const expireInput = document.getElementById('expire');
+        const descInput = document.getElementById('desc');
+        const display = document.getElementById('display');
+        const errName = document.getElementById('errName');
+        const errDesc = document.getElementById('errDesc');
+        const errId = document.getElementById('errId');
+        const errType = document.getElementById('errType');
+        const errExpire = document.getElementById('errExpire');
+
+        function clearErrors() {
+            errId.innerText = '';
+            errName.innerText = '';
+            errType.innerText = '';
+            errExpire.innerText = '';
+            errDesc.innerText = '';
+        }
+
+        function formatDate(iso) {
+            if (!iso) return '';
+            const d = new Date(iso);
+            if (isNaN(d)) return iso;
+            const dd = String(d.getDate()).padStart(2, '0');
+            const mm = String(d.getMonth() + 1).padStart(2, '0');
+            const yyyy = d.getFullYear();
+            return `${dd}/${mm}/${yyyy}`;
+        }
+
+        function validate() {
+            clearErrors();
+            let ok = true;
+            if (idInput.value.trim() === '') {
+                errId.innerText = 'Product ID is required.';
+                ok = false;
+            }
+            if (nameInput.value.trim() === '') {
+                errName.innerText = 'Product Name is required.';
+                ok = false;
+            }
+            if (typeSelect.value === '') {
+                errType.innerText = 'Type is required.';
+                ok = false;
+            }
+            if (expireInput.value === '') {
+                errExpire.innerText = 'Expiry date is required.';
+                ok = false;
+            }
+            if (descInput.value.trim() === '') {
+                errDesc.innerText = 'Description is required.';
+                ok = false;
+            }
+            return ok;
+        }
+
+        function showInfo() {
+            if (!validate()) return;
+            const formattedDate = formatDate(expireInput.value);
+            display.innerText = `======= Product Information ========\nProduct ID: ${idInput.value.trim()}\nProduct Name: ${nameInput.value.trim()}\nType: ${typeSelect.value}\nExpire: ${formattedDate}\nDescription: ${descInput.value.trim()}`;
+        }
+
+        function resetForm() {
+            idInput.value = '';
+            nameInput.value = '';
+            typeSelect.selectedIndex = 0;
+            expireInput.value = '';
+            descInput.value = '';
+            clearErrors();
+            display.innerText = '';
+        }
+
+        document.getElementById('saveBtn').addEventListener('click', showInfo);
+        document.getElementById('resetBtn').addEventListener('click', resetForm);
+    </script>
+
+
+</body>
+
+</html>
