@@ -1,0 +1,375 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>GitHub + Weather</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif
+        }
+        
+        body {
+            background: #f0f2f5;
+            padding: 2rem 1rem;
+            min-height: 100vh
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem
+        }
+        
+        .card {
+            background: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, .12);
+            overflow: hidden;
+            flex: 1;
+            min-width: 280px
+        }
+        
+        .card-header {
+            background: #1a1a2e;
+            color: #fff;
+            padding: 1rem 1.2rem;
+            font-weight: 600;
+            font-size: 1.1rem
+        }
+        
+        .card-body {
+            padding: 1.2rem
+        }
+        
+        input,
+        button {
+            width: 100%;
+            padding: .75rem;
+            border-radius: .5rem;
+            font-size: 1rem
+        }
+        
+        input {
+            border: 1px solid #ddd;
+            margin-bottom: .75rem
+        }
+        
+        button {
+            border: none;
+            background: #1a1a2e;
+            color: #fff;
+            cursor: pointer
+        }
+        
+        button:hover {
+            background: #2d2d44
+        }
+        
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 1rem;
+            align-items: flex-start;
+            margin-bottom: 1rem
+        }
+        
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+        }
+        
+        .grid2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: .6rem
+        }
+        
+        .detail-item {
+            background: #f8f9fa;
+            padding: .65rem;
+            border-radius: .5rem;
+            font-size: .85rem;
+            word-break: break-word
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #555
+        }
+        
+        .missing {
+            color: #dc3545;
+            font-style: italic;
+        }
+        
+        .weather-item {
+            display: flex;
+            justify-content: space-between;
+            padding: .5rem 0;
+            border-bottom: 1px solid #eee
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: .85rem;
+            border-radius: .5rem;
+            margin-top: .5rem
+        }
+        
+        .loader {
+            color: #666;
+            padding: .85rem;
+            margin-top: .5rem;
+            text-align: center
+        }
+        
+        .loader::before {
+            content: "";
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ddd;
+            border-top-color: #1a1a2e;
+            border-radius: 50%;
+            animation: spin .6s linear infinite;
+            margin-right: .5rem
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+        
+        a {
+            color: #1a1a2e;
+            text-decoration: none
+        }
+        
+        a:hover {
+            text-decoration: underline
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">GitHub User Info</div>
+            <div class="card-body">
+                <input id="username" placeholder="Search login" value="RequiemForFate">
+                <button id="searchBtn">🔍 Search</button>
+                <div id="githubMessage" class="loader" style="display:block; margin-top:1rem;">Loading user...</div>
+                <div id="githubCard" style="display:none; margin-top:1rem;">
+                    <div class="profile-grid">
+                        <img id="ghAvatar" class="avatar" src="" alt="avatar">
+                        <div>
+                            <h3 id="ghName">Search for a GitHub user</h3>
+                            <p id="ghLogin"></p>
+                        </div>
+                    </div>
+                    <div class="grid2">
+                        <div class="detail-item">
+                            <div class="detail-label">GitHub URL</div>
+                            <div id="ghUrl">No data</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Blog</div>
+                            <div id="ghBlog">No data</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">City</div>
+                            <div id="ghLocation">No data</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Email</div>
+                            <div id="ghEmail">No data</div>
+                        </div>
+                    </div>
+                    <div class="grid2" style="margin-top:1rem;">
+                        <div class="detail-item">
+                            <div class="detail-label">Followers</div>
+                            <div id="ghFollowers">0</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Following</div>
+                            <div id="ghFollowing">0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">🌤️ Phnom Penh Weather</div>
+            <div class="card-body">
+                <div id="weatherMessage" class="loader" style="display:block; margin-top:1rem;">Loading weather...</div>
+                <div id="weatherCard" style="display:none; margin-top:1rem;">
+                    <div class="temp" id="weatherTemp">--°C</div>
+                    <div class="detail-item">
+                        <div class="detail-label">Location</div>
+                        <div id="weatherLocation">Phnom Penh</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Description</div>
+                        <div id="weatherDesc">--</div>
+                    </div>
+                    <div class="weather-item"><span>Feels like</span><span id="weatherFeels">--°C</span></div>
+                    <div class="weather-item"><span>Min / Max</span><span id="weatherRange">-- / --</span></div>
+                    <div class="weather-item"><span>Humidity</span><span id="weatherHumidity">--%</span></div>
+                    <div class="weather-item"><span>Wind</span><span id="weatherWind">-- m/s</span></div>
+                    <div class="weather-item"><span>Pressure</span><span id="weatherPressure">-- hPa</span></div>
+                    <div class="weather-item"><span>Visibility</span><span id="weatherVisibility">--</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const $ = selector => document.querySelector(selector);
+
+        const githubMessage = $('#githubMessage');
+        const githubCard = $('#githubCard');
+        const ghAvatar = $('#ghAvatar');
+        const ghName = $('#ghName');
+        const ghLogin = $('#ghLogin');
+        const ghUrl = $('#ghUrl');
+        const ghBlog = $('#ghBlog');
+        const ghLocation = $('#ghLocation');
+        const ghEmail = $('#ghEmail');
+        const ghFollowers = $('#ghFollowers');
+        const ghFollowing = $('#ghFollowing');
+        const username = $('#username');
+        const searchBtn = $('#searchBtn');
+
+        const weatherMessage = $('#weatherMessage');
+        const weatherCard = $('#weatherCard');
+        const weatherTemp = $('#weatherTemp');
+        const weatherLocation = $('#weatherLocation');
+        const weatherDesc = $('#weatherDesc');
+        const weatherFeels = $('#weatherFeels');
+        const weatherRange = $('#weatherRange');
+        const weatherHumidity = $('#weatherHumidity');
+        const weatherWind = $('#weatherWind');
+        const weatherPressure = $('#weatherPressure');
+        const weatherVisibility = $('#weatherVisibility');
+
+        const WEATHER_API_KEY = 'YOUR_API_KEY';
+        const WEATHER_CITY = 'Phnom Penh,KH';
+
+        const escapeHtml = value => String(value || '').replace(/[&<>]/g, char =>
+            char === '&' ? '&amp;' :
+            char === '<' ? '&lt;' :
+            char === '>' ? '&gt;' :
+            char
+        );
+
+        const setGithubState = (showCard, message, className = 'loader') => {
+            githubCard.style.display = showCard ? 'block' : 'none';
+            githubMessage.style.display = showCard ? 'none' : 'block';
+            githubMessage.className = className;
+            githubMessage.textContent = message;
+        };
+
+        const setWeatherState = (showCard, message, className = 'loader') => {
+            weatherCard.style.display = showCard ? 'block' : 'none';
+            weatherMessage.style.display = showCard ? 'none' : 'block';
+            weatherMessage.className = className;
+            weatherMessage.textContent = message;
+        };
+
+        const renderGitHub = user => {
+            const missing = 'No data';
+            const blog = user.blog ? user.blog.trim() : null;
+
+            ghAvatar.src = user.avatar_url || '';
+            ghAvatar.style.display = user.avatar_url ? 'block' : 'none';
+            ghName.textContent = user.name || user.login || 'Unknown';
+            ghLogin.textContent = '@' + (user.login || 'unknown');
+            ghUrl.innerHTML = user.html_url ?
+                `<a href="${escapeHtml(user.html_url)}" target="_blank" rel="noopener">${escapeHtml(user.html_url)}</a>` :
+                missing;
+            ghBlog.innerHTML = blog ?
+                `<a href="${escapeHtml(blog.startsWith('http') ? blog : 'https://' + blog)}" target="_blank" rel="noopener">${escapeHtml(blog)}</a>` :
+                missing;
+            ghLocation.textContent = user.location || missing;
+            ghEmail.textContent = user.email || missing;
+            ghFollowers.textContent = (user.followers ? user.followers : 0).toLocaleString();
+            ghFollowing.textContent = (user.following ? user.following : 0).toLocaleString();
+
+            setGithubState(true);
+        };
+
+        const renderWeather = data => {
+            const main = data.main || {};
+            const wind = data.wind || {};
+            const weather = data.weather ? data.weather[0] || {} : {};
+
+            weatherTemp.textContent = `${Math.round(main.temp ? main.temp : 0)}°C`;
+            weatherLocation.textContent = data.name || 'Phnom Penh';
+            weatherDesc.textContent = weather.description || 'N/A';
+            weatherFeels.textContent = `${Math.round(main.feels_like ? main.feels_like : 0)}°C`;
+            weatherRange.textContent = `${Math.round(main.temp_min ? main.temp_min : 0)}° / ${Math.round(main.temp_max ? main.temp_max : 0)}°`;
+            weatherHumidity.textContent = `${main.humidity ? main.humidity : 'N/A'}%`;
+            weatherWind.textContent = `${wind.speed ? wind.speed : 'N/A'} m/s`;
+            weatherPressure.textContent = `${main.pressure ? main.pressure : 'N/A'} hPa`;
+            weatherVisibility.textContent = data.visibility != null ? `${(data.visibility / 1000).toFixed(1)} km` : 'N/A';
+
+            setWeatherState(true);
+        };
+
+        const fetchGitHub = async() => {
+            const login = username.value.trim();
+            if (!login) {
+                setGithubState(false, 'Enter login', 'error');
+                return;
+            }
+
+            setGithubState(false, 'Fetching user...', 'loader');
+            try {
+                const response = await fetch(`https://api.github.com/users/${encodeURIComponent(login)}`);
+                if (!response.ok) throw new Error(response.status === 404 ? 'User not found' : 'GitHub API error');
+                const user = await response.json();
+                renderGitHub(user);
+            } catch (error) {
+                setGithubState(false, `❌ ${escapeHtml(error.message)}`, 'error');
+            }
+        };
+
+        const fetchWeather = async() => {
+            if (WEATHER_API_KEY === 'YOUR_API_KEY') {
+                setWeatherState(false, '⚠️ Demo mode: add your OpenWeatherMap API key', 'error');
+                return;
+            }
+
+            setWeatherState(false, 'Fetching weather...', 'loader');
+            try {
+                const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=Kiev&APPID=b03a2cfad336d11bd9140ffd92074504${encodeURIComponent(WEATHER_CITY)}&appid=${WEATHER_API_KEY}&units=metric`);
+                if (!response.ok) throw new Error('Weather API error');
+                const data = await response.json();
+                renderWeather(data);
+            } catch (error) {
+                setWeatherState(false, `❌ ${escapeHtml(error.message)}`, 'error');
+            }
+        };
+
+        searchBtn.addEventListener('click', fetchGitHub);
+        username.addEventListener('keypress', event => {
+            if (event.key === 'Enter') fetchGitHub();
+        });
+
+        fetchGitHub();
+        fetchWeather();
+    </script>
+</body>
+
+</html>
