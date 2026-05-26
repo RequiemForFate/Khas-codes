@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cs128</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+</head>
+
+<style>
+    .card {
+        height: 100%;
+    }
+    
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+    }
+    
+    .card-text {
+        font-size: 1rem;
+        color: #555;
+    }
+    
+    .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
+    
+    hr {
+        size: 50px;
+        color: black;
+    }
+    
+    weathericon {
+        width: 50px;
+        height: 50px;
+    }
+</style>
+
+<body>
+
+    <!--task bootstrap-->
+    <div class="container py-6">
+        <h1 class="text-center">Task 1: Bootstrap</h1>
+        <p class="text-center">Project Sekai NUI shop</p>
+        <div class="row row-cols-1 row-cols-lg-6 g-3">
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://i.postimg.cc/HxRPYzRp/image-2026-05-25-150956640.png" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Hoshino Ichika</h5>
+                        <p class="card-text text-center">9.99$</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://i.postimg.cc/SQtDpgCN/image-2026-05-25-153253917.png" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Yoisaki Kanade</h5>
+                        <p class="card-text text-center">9.99$</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://i.postimg.cc/RZJYYjY4/image-2026-05-25-153155668.png" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Akiyama Mizuki</h5>
+                        <p class="card-text text-center">9.99$</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://i.postimg.cc/vHrMKxx9/image-2026-05-25-151804587.png" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Asahina Mafuyu</h5>
+                        <p class="card-text text-center">9.99$</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://i.postimg.cc/zBZ04vgj/image-2026-05-25-152037125.png" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Shinonome Ena</h5>
+                        <p class="card-text text-center">9.99$</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://i.postimg.cc/BQSsdQ5J/image-2026-05-25-153027575.png" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Nightcord at 25</h5>
+                        <p class="card-text text-center">29.99$</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <!--task weather api--->
+
+    <div class="container">
+        <h1 class="text-center">Task II: Weather in Paris</h1> <br>
+        <div class="card">
+            <div class="city text-center" id="cityName">Paris, Frances</div>
+            <img id="weatherIcon" class="icon" src="https://openweathermap.org/img/wn/01d@2x.png" alt="Weather Icon">
+            <div class="temp text-center" id="temp">--°C</div>
+            <div class="desc text-center" id="desc">Loading...</div>
+
+            <div class="details text-center">
+                <div>Feels like<strong id="feels">--</strong></div>
+                <div>Humidity<strong id="humidity">--</strong></div>
+                <div>Wind<strong id="wind">--</strong></div>
+            </div>
+        </div>
+
+        <button id="refreshBtn">Refresh</button>
+        <p id="error" class="error"></p>
+    </div>
+
+    <script>
+        const API_KEY = "c7910ecf9285591b16fd83379442a48c";
+
+        const city = "Paris";
+
+        function loadWeather() {
+            const errorEl = document.getElementById("error");
+            errorEl.textContent = "";
+
+            // The "units=metric" parameter gives temperature in Celsius
+            const url = "https://api.openweathermap.org/data/2.5/weather?q=Paris&appid" +
+                city + "&units=metric&appid=" + API_KEY;
+
+            fetch(url)
+                .then(function(response) {
+                    if (!response.ok) {
+                        throw new Error("Could not get weather (check API key).");
+                    }
+                    return response.json();
+                })
+                .then(function(data) {
+                    document.getElementById("cityName").textContent = data.name + ", " + data.sys.country;
+                    document.getElementById("temp").textContent = Math.round(data.main.temp) + "°C";
+                    document.getElementById("desc").textContent = data.weather[0].description;
+                    document.getElementById("feels").textContent = Math.round(data.main.feels_like) + "°C";
+                    document.getElementById("humidity").textContent = data.main.humidity + "%";
+                    document.getElementById("wind").textContent = data.wind.speed + " m/s";
+
+                    const icon = data.weather[0].icon;
+                    document.getElementById("weatherIcon").src =
+                        "https://openweathermap.org/img/wn/" + icon + "@2x.png";
+                })
+                .catch(function(err) {
+                    errorEl.textContent = err.message;
+                });
+        }
+
+        loadWeather();
+
+        document.getElementById("refreshBtn").addEventListener("click", loadWeather);
+    </script>
+</body>
+
+</html>
